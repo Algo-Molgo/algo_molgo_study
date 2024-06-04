@@ -6,6 +6,7 @@ const [N, K] = input[0].split(" ").map(Number);
 
 const answer = [];
 const queue = [];
+
 for (let i = 1; i <= N; i++) {
   queue.push(i);
 }
