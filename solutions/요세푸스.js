@@ -10,6 +10,7 @@ const queue = [];
 for (let i = 1; i <= N; i++) {
   queue.push(i);
 }
+
 for (let i = 1; i <= N; i++) {
   for (let j = 1; j <= K; j++) {
     if (j === K) {
