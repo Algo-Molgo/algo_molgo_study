@@ -13,19 +13,17 @@ function solution(inputArguments) {
   const [member, kill] = inputArguments;
 
   const memberList = Array.from({ length: member }, (_, i) => i + 1);
-  const killList = "";
+  let killList = "";
   let count = 0;
 
   while (memberList.length > 0) {
     count = (count + kill - 1) % memberList.length;
-    killList += memberList.splice(count, 1);
-    killList += ", ";
+    killList += memberList.splice(count, 1)[0] + ", ";
   }
-  killList = killList.slice(0, -1);
 
-  const result = `<${killList}>`;
+  killList = killList.slice(0, -2);
 
-  return result;
+  return `<${killList}>`;
 }
 
 console.log(solution(input));
