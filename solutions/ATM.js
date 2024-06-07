@@ -7,19 +7,14 @@ const input = fs.readFileSync(filePath).toString().trim().split("\n");
 const total = Number(input[0]);
 const timeArray = input[1].split(" ").map((Number));
 
-function solution(times) {
-  const accumulatedTimes = [];
+function solution(total, times) {
   times.sort((a, b) => a - b);
 
-  for (let i = 0; i < times.length; i++) {
-    if (i === 0) {
-      accumulatedTimes.push(times[i]);
-    } else {
-      accumulatedTimes.push(times[i] + accumulatedTimes[i - 1]);
-    }
-  }
+  return times.reduce((acc, cur, index) => {
+    acc += cur * (total - index);
 
-  return accumulatedTimes.reduce((a, b) => a + b, 0);
+    return acc;
+  }, 0);
 }
 
-console.log(solution(timeArray));
+console.log(solution(total, timeArray));
