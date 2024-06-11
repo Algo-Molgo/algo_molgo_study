@@ -14,7 +14,7 @@ const sortedPeople = people
   .map(Number)
   .sort((a, b) => a - b);
 
-sortedPeople.reduce((acc, cur, index) => {
+sortedPeople.reduce((acc, cur) => {
   acc = acc + cur;
   result += acc;
 
