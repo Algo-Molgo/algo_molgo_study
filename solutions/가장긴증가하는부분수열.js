@@ -7,17 +7,38 @@ const input = fs.readFileSync(filePath).toString().trim().split("\n");
 const arr = input[1].split(" ").map(Number);
 
 function solution(numbers) {
-  const indexLen = new Array(numbers.length).fill(1);
+  const DP = [numbers[0]];
+  let dpIndex = 0;
 
-  for (let i = 1; i < numbers.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (numbers[j] < numbers[i]) {
-        indexLen[i] = Math.max(indexLen[j] + 1, indexLen[i]);
-      }
+  for (let index = 1; index < numbers.length; index++) {
+    if (DP[dpIndex] < numbers[index]) {
+      DP.push(numbers[index]);
+
+      dpIndex++;
+    } else {
+      let targetIndex = binarySearch(dpIndex, numbers[index]);
+
+      DP[targetIndex] = numbers[index];
     }
   }
 
-  return Math.max(...indexLen);
+  function binarySearch(curIndex, target) {
+    let [start, end] = [0, curIndex];
+
+    while (start <= end) {
+      let mid = Math.floor((start + end) / 2);
+
+      if (DP[mid] < target) {
+        start = mid + 1;
+      } else {
+        end = mid - 1;
+      }
+    }
+
+    return start;
+  }
+
+  return DP.length;
 }
 
 console.log(solution(arr));
