@@ -8,7 +8,6 @@ let [information, ...map] = fs
   .trim()
   .split("\n");
 map = map.map((value) => value.split(""));
-console.log(map);
 
 const [height, width] = information.split(" ").map(Number);
 let max = 0;
@@ -28,9 +27,9 @@ function findSquare(map, startX, startY, count, max) {
     return max;
   }
 
-  const right = map[startY][startX];
-  const down = map[startY][startX];
-  const cross = map[startY][startX];
+  const right = map[startY][startX + count];
+  const down = map[startY + count][startX];
+  const cross = map[startY + count][startX + count];
 
   if (right === down && down === cross) {
     max = count;
@@ -38,5 +37,5 @@ function findSquare(map, startX, startY, count, max) {
 
   count++;
 
-  return findSquare(map, startX + count, startY + count, count, max);
+  return findSquare(map, startX, startY, count, max);
 }
