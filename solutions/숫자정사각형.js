@@ -9,33 +9,36 @@ let [information, ...map] = fs
   .split("\n");
 map = map.map((value) => value.split(""));
 
-const [height, width] = information.split(" ").map(Number);
+const [column, row] = information.split(" ").map(Number);
 let max = 0;
 
-for (let i = 0; i < height; i++) {
-  for (let j = 0; j < width; j++) {
+for (let i = 0; i < column; i++) {
+  for (let j = 0; j < row; j++) {
     max = Math.max(max, findSquare(map, i, j, 0, 1) ** 2);
   }
 }
 
 console.log(max);
 
-function findSquare(map, startX, startY, count, max) {
-  const isOut = startX + count >= width || startY + count >= height;
+function findSquare(map, startColumn, startRow, count, max) {
+  const nextColumn = startColumn + count;
+  const nextRow = startRow + count;
+  const isOut = nextColumn >= column || nextRow >= row;
 
   if (isOut) {
     return max;
   }
 
-  const right = map[startY][startX + count];
-  const down = map[startY + count][startX];
-  const cross = map[startY + count][startX + count];
+  const current = map[startColumn][startRow];
+  const right = map[startColumn][nextRow];
+  const down = map[nextColumn][startRow];
+  const cross = map[nextColumn][nextRow];
 
-  if (right === down && down === cross) {
-    max = count;
+  if (right === down && down === cross && right === current) {
+    max = Math.max(max, count + 1);
   }
 
   count++;
 
-  return findSquare(map, startX, startY, count, max);
+  return findSquare(map, startColumn, startRow, count, max);
 }
