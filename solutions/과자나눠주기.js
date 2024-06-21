@@ -11,25 +11,25 @@ function solution(inputArguments) {
     .map(Number)
     .sort((a, b) => a - b);
 
-  while (sticks[sticks.length - 1] > 2) {
-    const currentShortest = sticks[sticks.length - M];
-    const longestStick = sticks.pop();
+  let longestStick = 0;
+  let start = 1;
+  let end = sticks[sticks.length - 1];
 
-    if (currentShortest >= Math.floor(longestStick / 2)) {
-      sticks.push(longestStick);
-      break;
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2);
+    let stickCount = 0;
+
+    sticks.forEach((stick) => (stickCount += Math.floor(stick / mid)));
+
+    if (stickCount >= M) {
+      start = mid + 1;
+      longestStick = mid;
+    } else {
+      end = mid - 1;
     }
-
-    sticks.push(Math.floor(longestStick / 2));
-    sticks.push(longestStick - Math.floor(longestStick / 2));
-    sticks.sort((a, b) => a - b);
   }
 
-  if (sticks.length < M) {
-    return 0;
-  }
-
-  return sticks[sticks.length - M];
+  return longestStick;
 }
 
 console.log(solution(input));
