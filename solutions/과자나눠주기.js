@@ -8,30 +8,34 @@ const [nephewCount, cookieCount] = input.shift().split(" ").map(Number);
 const cookies = input[0]
   .split(" ")
   .map(Number)
-  .sort((a, b) => b - a);
+  .sort((a, b) => a - b);
 
-function divide(array) {
-  if (array.length === nephewCount) {
-    console.log(array.pop());
+function searchBinary(cookieList) {
+  let leftValue = 1;
+  let rightValue = cookieList[cookieList.length - 1];
+  let result = 0;
 
-    return;
+  while (leftValue <= rightValue) {
+    let count = 0;
+    let midValue = Math.floor((leftValue + rightValue) / 2);
+
+    for (let i = 0; i < cookieList.length; i++) {
+      const mock = Math.floor(cookieList[i] / midValue);
+
+      if (mock) {
+        count += mock;
+      }
+    }
+
+    if (count < nephewCount) {
+      rightValue = midValue - 1;
+    } else {
+      result = midValue;
+      leftValue = midValue + 1;
+    }
   }
 
-  if (array[0] === 1) {
-    console.log(0);
-
-    return;
-  }
-
-  if (array.length < nephewCount) {
-    const maxNum = array[0];
-    const halfNum = Math.floor(maxNum / 2);
-
-    array.splice(0, 1, halfNum, halfNum);
-    array.sort((a, b) => b - a);
-
-    divide(array);
-  }
+  return result;
 }
 
-divide(cookies.slice(0, nephewCount), 0);
+console.log(searchBinary(cookies));
