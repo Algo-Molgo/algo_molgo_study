@@ -7,7 +7,6 @@ const input = fs.readFileSync(filePath).toString().trim().split("\n");
 function solution(input) {
   const n = parseInt(input[0]);
   const [personA, personB] = input[1].split(" ").map(Number);
-  const m = parseInt(input[2]);
   const relationsList = input
     .slice(3)
     .map((line) => line.split(" ").map(Number));
@@ -16,6 +15,26 @@ function solution(input) {
   for (const [x, y] of relationsList) {
     graph[x].push(y);
     graph[y].push(x);
+  }
+
+  const queue = [[personA, 0]];
+  const visitedList = Array(n + 1).fill(false);
+
+  visitedList[personA] = true;
+
+  while (queue.length) {
+    const [current, depth] = queue.shift();
+
+    if (current === personB) {
+      return depth;
+    }
+
+    for (const neighbor of graph[current]) {
+      if (!visitedList[neighbor]) {
+        visitedList[neighbor] = true;
+        queue.push([neighbor, depth + 1]);
+      }
+    }
   }
 
   return -1;
