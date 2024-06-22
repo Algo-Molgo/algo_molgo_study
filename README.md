@@ -18,6 +18,14 @@
 
 <br>
 
+## 🤔 How We Communicate ?
+
+슬랙 *Slack* 을 통해 소통하고 있어요. <br>
+슬랙봇 *Slack bot* 이 자동으로 오늘 풀 문제와 리뷰어를 배정해주고 있어요. <br>
+문제 난이도에 대한 피드백을 받고, 접근법에 대해 공유하고 있어요. <br>
+
+<br>
+
 ## 🤹🏻‍♀️ Members
 총 원 11 명
 - [오성호](https://github.com/tjd985)
