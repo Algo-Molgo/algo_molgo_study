@@ -7,24 +7,21 @@ let [sequenceLength, sequence] = fs
   .toString()
   .trim()
   .split("\n");
-let result = 0;
 
 sequence = sequence.split(" ").map(Number);
+const dp = Array.from({ length: Number(sequenceLength) }, (value) => 0);
+dp[0] = 1;
 
-function findAsc(startIndex, currentValue, currentLength) {
-  result = Math.max(result, currentLength);
+for (let i = 0; i < Number(sequenceLength); i++) {
+  let max = 0;
 
-  for (let i = startIndex; i < Number(sequenceLength); i++) {
-    if (sequence[i] <= currentValue) {
-      continue;
+  for (let j = 0; j < i; j++) {
+    if (sequence[i] > sequence[j] && dp[j] > max) {
+      max = dp[j];
     }
 
-    findAsc(sequence[i], i, currentLength + 1);
+    dp[i] = max + 1;
   }
 }
 
-for (let i = 0; i < sequenceLength; i++) {
-  findAsc(i, sequence[i], 1);
-}
-
-console.log(result);
+console.log(Math.max(...dp));
