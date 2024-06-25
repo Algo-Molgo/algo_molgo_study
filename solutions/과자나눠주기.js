@@ -7,22 +7,26 @@ const input = fs.readFileSync(filePath).toString().trim().split("\n");
 function solution(input) {
   const [M, N] = input[0].split(" ").map(Number);
   const snacks = input[1].split(" ").map(Number);
-  let maxSnackLength = 0;
-  const maxLength = Math.max(...snacks);
 
-  for (let length = 1; length <= maxLength; length++) {
-    let providedLength = 0;
+  let left = 1;
+  let right = Math.max(...snacks);
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    let count = 0;
 
     for (const snack of snacks) {
-      providedLength += Math.floor(snack / length);
+      count += Math.floor(snack / mid);
     }
 
-    if (providedLength >= M) {
-      maxSnackLength = length;
+    if (count >= M) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
     }
   }
 
-  return maxSnackLength;
+  return right;
 }
 
 console.log(solution(input));
