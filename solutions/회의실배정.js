@@ -21,21 +21,13 @@ function f(times) {
   for (let i = 1; i < n; i++) {
     [newStart, newEnd] = times[i];
 
-    if (newStart > oldEnd) {
+    if (newStart >= oldEnd) {
       rooms++;
       oldEnd = newEnd;
     }
 
     if (newStart < oldEnd && newEnd < oldEnd) {
       oldEnd = newEnd;
-    }
-
-    if (newStart === oldEnd) {
-      if (newEnd < oldEnd) {
-        oldEnd = newEnd;
-      } else {
-        rooms++;
-      }
     }
   }
 
