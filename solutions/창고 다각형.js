@@ -23,28 +23,30 @@ function solution(barsNumber, bars) {
 
   let area = 0;
   let currentHeight = 0;
+  let currentX = bars[0][0];
 
   for (let i = 0; i <= maxIndex; i++) {
     if (bars[i][1] > currentHeight) {
-      area += currentHeight * (bars[i][0] - bars[i - 1][0]);
+      area += currentHeight * (bars[i][0] - currentX);
       currentHeight = bars[i][1];
+      currentX = bars[i][0];
     }
   }
-
-  area += currentHeight * (bars[maxIndex][0] - bars[maxIndex - 1][0]);
+  area += currentHeight * (bars[maxIndex][0] + 1 - currentX);
 
   currentHeight = 0;
+  currentX = bars[barsNumber - 1][0] + 1;
 
   for (let i = barsNumber - 1; i > maxIndex; i--) {
     if (bars[i][1] > currentHeight) {
-      area += currentHeight * (bars[i + 1][0] - bars[i][0]);
+      area += currentHeight * (currentX - bars[i][0] - 1);
       currentHeight = bars[i][1];
+      currentX = bars[i][0] + 1;
     }
   }
-  area += currentHeight * (bars[maxIndex + 1][0] - bars[maxIndex][0]);
+  area += currentHeight * (currentX - bars[maxIndex][0] - 1);
 
   return area;
 }
 
-// 백준에서는 다음과 같이 문제를 해결합니다.
 console.log(solution(barsNumber, bars));
