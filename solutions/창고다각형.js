@@ -11,6 +11,8 @@ function solution(inputArguments) {
     .map((pillar) => pillar.split(" ").map(Number));
   const heightOfHighestPillar = pillars.sort((a, b) => b[1] - a[1])[0][1];
   const highestPillars = [];
+  const sortedPillars = pillars.sort((a, b) => a[0] - b[0]);
+  let prevPillar = sortedPillars[0];
 
   pillars.forEach((pillar) => {
     if (pillar[1] === heightOfHighestPillar) {
@@ -19,11 +21,8 @@ function solution(inputArguments) {
   });
   highestPillars.sort((a, b) => a[0] - b[0]);
 
-  const sortedPillars = pillars.sort((a, b) => a[0] - b[0]);
-  let prevPillar = sortedPillars[0];
-
   for (let i = 1; i < sortedPillars.length; i += 1) {
-    if (prevPillar[1] <= sortedPillars[i][1]) {
+    if (prevPillar[1] < sortedPillars[i][1]) {
       area += prevPillar[1] * (sortedPillars[i][0] - prevPillar[0]);
       prevPillar = sortedPillars[i];
     }
@@ -36,19 +35,21 @@ function solution(inputArguments) {
   prevPillar = sortedPillars[sortedPillars.length - 1];
 
   for (let i = sortedPillars.length - 2; i >= 0; i -= 1) {
-    if (prevPillar[1] <= sortedPillars[i][1]) {
+    if (prevPillar[1] < sortedPillars[i][1]) {
       area += prevPillar[1] * (prevPillar[0] - sortedPillars[i][0]);
       prevPillar = sortedPillars[i];
     }
 
-    if (sortedPillars[i][0] === highestPillars[0][0]) {
+    if (sortedPillars[i][0] === highestPillars[highestPillars.length - 1][0]) {
       break;
     }
   }
 
   area +=
     highestPillars.length > 1
-      ? (highestPillars[highestPillars.length - 1][0] - highestPillars[0][0]) *
+      ? (highestPillars[highestPillars.length - 1][0] -
+          highestPillars[0][0] +
+          1) *
         highestPillars[0][1]
       : highestPillars[0][1];
 
