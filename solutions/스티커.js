@@ -16,6 +16,11 @@ function solution(inputArguments) {
       inputArguments[index++].split(" ").map(Number),
     ];
 
+    if (num === 1) {
+      results.push(Math.max(sticker[0][0], sticker[1][0]));
+      continue;
+    }
+
     const previous = [0, 0];
     const current = [0, 0];
 
