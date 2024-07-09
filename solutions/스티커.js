@@ -6,9 +6,6 @@ const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
 function solution(inputArguments) {
   const testCases = inputArguments[0];
-  let totals = [];
-  const dy = [-1, 0, 1, 0];
-  const dx = [0, 1, 0, -1];
   const answers = [];
 
   for (let testCase = 1; testCase <= testCases; testCase += 1) {
@@ -17,54 +14,19 @@ function solution(inputArguments) {
       inputArguments[(testCase - 1) * 3 + 2].split(" ").map(Number),
       inputArguments[testCase * 3].split(" ").map(Number),
     ];
-    const visited = [Array(N).fill(false), Array(N).fill(false)];
+    const dp = [Array(N).fill(0), Array(N).fill(0)];
 
-    dfs(stickers, visited, 0, 0, 0, N);
+    dp[0][0] = stickers[0][0];
+    dp[1][0] = stickers[1][0];
+    dp[0][1] = dp[1][0] + stickers[0][1];
+    dp[1][1] = dp[0][0] + stickers[1][1];
 
-    answers.push(Math.max(...totals));
-    totals = [];
-  }
-
-  function dfs(stickers, visited, row, col, total, N) {
-    if (row >= 2) {
-      totals.push(total);
-
-      return;
+    for (let i = 2; i < N; i += 1) {
+      dp[0][i] = Math.max(dp[1][i - 1], dp[1][i - 2]) + stickers[0][i];
+      dp[1][i] = Math.max(dp[0][i - 1], dp[0][i - 2]) + stickers[1][i];
     }
 
-    visited[row][col] = true;
-
-    if (col >= N) {
-      dfs(stickers, visited, row + 1, 0, total, N);
-
-      return;
-    }
-
-    for (let y = row; y < 2; y += 1) {
-      for (let x = col; x < N; x += 1) {
-        const currentVisited = [];
-
-        if (!visited[y][x]) {
-          total += stickers[y][x];
-
-          for (let i = 0; i < 4; i += 1) {
-            const [ny, nx] = [y + dy[i], x + dx[i]];
-
-            if (0 <= ny && ny < 2 && 0 <= nx && nx < N && !visited[ny][nx]) {
-              visited[ny][nx] = true;
-              currentVisited.push([ny, nx]);
-            }
-          }
-
-          dfs(stickers, visited, y, x + 1, total, N);
-
-          for (let i = 0; i < currentVisited.length; i += 1) {
-            const [y, x] = currentVisited[i];
-            visited[y][x] = false;
-          }
-        }
-      }
-    }
+    answers.push(Math.max(dp[0][N - 1], dp[1][N - 1]));
   }
 
   return answers;
