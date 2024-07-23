@@ -9,10 +9,10 @@ function solution(input) {
   const words = input.slice(1);
 
   const wordsLength = words.reduce((sum, word) => sum + word.length, 0);
-  const totalUnderlines = M - wordsLength;
+  const totalUnderScores = M - wordsLength;
 
-  let baseUnderScores = Math.floor(totalUnderlines / (N - 1));
-  let extraUnderScores = totalUnderlines % (N - 1);
+  let baseUnderScores = Math.floor(totalUnderScores / (N - 1));
+  let extraUnderScores = totalUnderScores % (N - 1);
 
   const result = [];
 
