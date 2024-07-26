@@ -2,25 +2,25 @@ const INPUT_PATH = "inputs/numberOfRelatives.txt";
 
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : INPUT_PATH;
-const input = fs.readFileSync(filePath).toString().trim().split("\n");
+const [totalPeople, targetPeople, relationCount, ...relations] = fs
+  .readFileSync(filePath)
+  .toString()
+  .trim()
+  .split("\n");
 
-const N = Number(input.shift());
-const [A, B] = input.shift().split(" ").map(Number);
-const numberOfChildren = Number(input.shift());
-const relationships = input.map((arr) => arr.split(" ").map(Number));
-const tree = {};
+let result = Infinity;
+const parentList1 = {};
+const parentList2 = {};
 
-console.log(relationships);
-relationships.forEach(([parent, child ]) => {
-  if (tree[parent]) {
-    const parentTree = tree[parent];
-    parentTree[child] = {};
+let [target1, target2] = targetPeople.split(" ").map(Number);
+const relationMap = new Map();
 
-    return;
-  }
+for (const relation of relations) {
+  const [parent, child] = relation.split(" ").map(Number);
 
-  tree[parent] = {[child]: {}};
-  console.log(tree);
-});
+  relationMap.set(child, parent);
+}
+console.log(relationMap);
 
-console.log(tree);
+console.log(relationMap.get(target1), target1);
+console.log(relationMap.get(target2));
