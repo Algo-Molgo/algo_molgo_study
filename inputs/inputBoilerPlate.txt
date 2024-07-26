@@ -1,6 +1,1 @@
-5 32
-Alpha
-Beta
-Gamma
-Delta
-Epsilon
+5 17
