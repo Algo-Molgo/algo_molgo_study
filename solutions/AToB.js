@@ -4,30 +4,30 @@ const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : INPUT_PATH;
 const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const [A, B] = input[0].split(" ").map(Number);
+function solution(inputArguments) {
+  let [element, targetNum] = inputArguments;
+  let count = 0;
 
-const path = [A, 1];
+  while (element !== targetNum) {
+    if (targetNum < element) {
+      return -1;
+    }
 
-const stack = [path];
+    if (String(targetNum).endsWith("1")) {
+      const convertedNumToStr = targetNum
+        .toString()
+        .substring(0, targetNum.toString().length - 1);
+      const convertedStrToNum = Number(convertedNumToStr);
 
-while(stack.length > 0) {
-  const [currentNumber, count] = stack.pop();
-
-  const doubledNumber = currentNumber * 2;
-  const addedNumber = Number(`${String(currentNumber)}1`);
-
-  if (doubledNumber === B || addedNumber === B) {
-    console.log(count + 1);
-    return;
+      targetNum = convertedStrToNum;
+      count += 1;
+    } else {
+      targetNum /= 2;
+      count += 1;
+    }
   }
 
-  if (doubledNumber < B) {
-    stack.push([doubledNumber, count + 1]);
-  }
-
-  if (addedNumber < B) {
-    stack.push([addedNumber, count + 1]);
-  }
+  return count + 1;
 }
 
-console.log(-1);
+console.log(solution(input));
