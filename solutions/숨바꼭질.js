@@ -9,6 +9,7 @@ function solution(inputArguments) {
 
   let time = 0;
   const searchList =[[N, time]]
+  const result = [];
 
   while (searchList.length > 0) {
     const [current, accTime] = searchList.pop();
@@ -18,18 +19,22 @@ function solution(inputArguments) {
     const doubleMove = current * 2;
 
     if (current === K) {
-      return accTime;
+      console.log("result", current, accTime)
+      result.push(accTime);
+      
+      continue;
     }
 
-    if (current < K) {
+    if (current > K) {
+      searchList.push([leftMove, accTime + 1]);
+    } else {
       searchList.push([rightMove, accTime + 1]);
       searchList.push([doubleMove, accTime + 1]);
-    } else {
-      searchList.push([leftMove, accTime + 1]);
     }
   }
 
-  return time;
+  console.log("result", Math.min(...result));
+  return Math.min(...result);
 }
 
 console.log(solution(input));
